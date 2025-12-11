@@ -22,10 +22,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> signUp({required String email, required String password, String? fullName}) async {
     try {
+      final confirmUrl = dotenv.env['CONFIRM_EMAIL_URL'] ?? 'http://localhost:3000/confirm-email';
+      
       final response = await _auth.signUp(
         email: email,
         password: password,
         data: fullName != null ? {'full_name': fullName} : null,
+        emailRedirectTo: confirmUrl, // 👈 IMPORTANTE
       );
       if (response.user == null) throw const AuthException(message: 'Error al crear cuenta');
       return UserModel.fromSupabaseUser(response.user!);
