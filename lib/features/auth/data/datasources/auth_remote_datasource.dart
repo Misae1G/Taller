@@ -59,10 +59,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> sendPasswordResetEmail(String email) async {
-    final redirectUrl = dotenv.env['RESET_PASSWORD_URL'] ?? 'http://localhost:3000/reset-password';
-    await _auth.resetPasswordForEmail(email, redirectTo: redirectUrl);
+    final redirectUrl = dotenv.env['RESET_PASSWORD_URL']!;
+    await _auth.resetPasswordForEmail(
+      email,
+      redirectTo: redirectUrl,
+    );
   }
-
+  
   @override
   Future<void> updatePassword(String newPassword) async {
     await _auth.updateUser(UserAttributes(password: newPassword));
