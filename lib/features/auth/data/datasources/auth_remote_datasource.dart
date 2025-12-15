@@ -59,13 +59,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> sendPasswordResetEmail(String email) async {
-    final redirectUrl = dotenv.env['RESET_PASSWORD_URL']!;
+    final redirectUrl = dotenv.env['RESET_PASSWORD_URL']?? 'https://enlaces-opal.vercel.app/reset-password';
     await _auth.resetPasswordForEmail(
       email,
       redirectTo: redirectUrl,
     );
   }
-  
+
   @override
   Future<void> updatePassword(String newPassword) async {
     await _auth.updateUser(UserAttributes(password: newPassword));
